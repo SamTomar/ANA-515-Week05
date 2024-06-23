@@ -1,0 +1,59 @@
+---
+title: "ANA 515 week05 Activity"
+author: "SACHINSINGH TOMAR"
+date: "2024-06-23"
+output:
+  word_document: default
+  html_document:
+    theme:
+      bootswatch: lux
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, include = TRUE, message = TRUE, warning = FALSE)
+library(tidyverse)
+library(knitr)
+library(bslib)
+library(readr)
+library(ggplot2)
+library(rmarkdown)
+library(dplyr)  # for data manipulation
+library(lubridate)  # for date handling
+```
+
+
+
+## Avengers
+
+Avengers data set contains information about various characters from the Marvel Comics universe. Each row represents a character, and the columns provide details such as the character's name/alias, number of appearances, gender, introduction to the Avengers team, death and resurrection events, and additional notes. The provided dataset is in CSV format. the data details the deaths of Marvel comic book characters between the time they joined the Avengers and April 30, 2015, the week before Secret Wars #1.The data was collected from the Marvel Wikia, which is an online database that provides information about Marvel comics and characters. 
+
+
+``` {r load-data, echo=FALSE}
+# Dataset URL
+data <- "https://raw.githubusercontent.com/SamTomar/ANA-515-avengers-data/main/avengers.csv" #Code for reading file from URL.
+
+# Read the dataset from the URL
+avengers_data <- read_csv(data,show_col_types = FALSE) #read_csv is part of the readr package, which is included in the tidyverse collection of R packages
+```
+
+```{r visualization, echo=TRUE}
+ggplot(avengers_data, aes(x = Appearances)) +
+  geom_histogram(binwidth = 100, fill = "steelblue", color = "black") +
+  labs(title = "Distribution of Avengers Appearances",
+       x = "Number of Appearances",
+       y = "Count") +
+  theme_minimal()
+```
+  
+  As we can observe that most Avengers characters have made fewer than 1000 appearances overall.There are a few characters with a very high number of appearances (over 2000).We can say that the distribution is right-skewed, indicating that a small number of characters appear much more frequently than others. 
+  
+```{r visualization2, echo=TRUE}
+  ggplot(avengers_data, aes(x = `Years since joining`, y = Appearances)) +
+  geom_point(aes(color = Gender), alpha = 0.7) +
+  labs(title = "Appearances vs. Years since joining the Avengers",
+       x = "Years since joining",
+       y = "Number of Appearances") +
+  theme_minimal()
+```
+  
+  We can say that there's a general positive trend, characters who have been Avengers for longer tend to have more appearances than the others who are not part of Avengers. However, there's significant variation, with some long-time members having relatively few appearances and some newer members having many appearances. The gender of the characters is represented by color, allowing us to see if there are any gender-based patterns in appearances or longevity.
